@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Vector;
 
 /**
  * @author Xiaoli Liu
@@ -13,8 +14,19 @@ import java.awt.event.KeyListener;
 public class MyPanel extends JPanel implements KeyListener {
     //define my tank
     Hero hero = null;
+    //define enemy tanks in vector
+    int enemyNum = 3;
+    Vector<Enemy> enemyTanks = new Vector<>();
     public MyPanel(){
-        hero = new Hero(100,100);
+        hero = new Hero(200,200);
+        //initial enemy tanks
+        for (int i = 0; i < enemyNum; i++) {
+            Enemy et = new Enemy((100*(i+1)),0);
+            et.setDirect(2);
+            enemyTanks.add(et);
+
+        }
+
 
     }
 
@@ -24,8 +36,14 @@ public class MyPanel extends JPanel implements KeyListener {
         //fill the frame
         g.fillRect(0,0,1000,750);
 
-        //draw tank
-        drawTank(hero.getX(),hero.getY(),g, hero.getDirect(), 1);
+        //draw my tank
+        drawTank(hero.getX(),hero.getY(),g, hero.getDirect(), 0);
+
+        //draw enemy tank
+        for (Enemy enemyTank : enemyTanks) {
+            drawTank(enemyTank.getX(), enemyTank.getY(), g, enemyTank.getDirect(), 1);
+        }
+
 
 
 
@@ -34,7 +52,7 @@ public class MyPanel extends JPanel implements KeyListener {
 
     /**
      *
-     * @param x: x-aixis of tank
+     * @param x: x-axis of tank
      * @param y: y-axis
      * @param g pan
      * @param direct direction of tank
